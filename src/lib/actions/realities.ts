@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentCompany } from "@/lib/data/company";
-import { REALITY_TYPE_PATH, type RealityType } from "@/lib/reality-types";
+import type { RealityType } from "@/lib/reality-types";
 
 function str(formData: FormData, key: string): string | null {
   const value = formData.get(key);
@@ -129,8 +129,4 @@ export async function createHotel(formData: FormData) {
   revalidatePath("/immobili/hotel");
   revalidatePath("/dashboard");
   redirect(`/realta/${realityId}`);
-}
-
-export function realityListPath(type: RealityType): string {
-  return `/immobili/${REALITY_TYPE_PATH[type]}`;
 }
