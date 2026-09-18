@@ -1,0 +1,207 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import {
+  LayoutDashboard,
+  Building2,
+  Home,
+  Hotel,
+  Repeat,
+  BookOpen,
+  ListTree,
+  FileText,
+  Users,
+  Truck,
+  Wallet,
+  Landmark,
+  Banknote,
+  Percent,
+  CalendarClock,
+  BarChart3,
+  FolderOpen,
+  Settings,
+  ChevronDown,
+  Building,
+} from "lucide-react";
+import clsx from "clsx";
+
+type NavLeaf = {
+  label: string;
+  href: string;
+  icon: React.ComponentType<{ className?: string }>;
+};
+
+type NavGroup = {
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+  basePath: string;
+  items: NavLeaf[];
+};
+
+type NavEntry = NavLeaf | NavGroup;
+
+function isGroup(entry: NavEntry): entry is NavGroup {
+  return "items" in entry;
+}
+
+const NAV: NavEntry[] = [
+  { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  {
+    label: "Immobili",
+    icon: Building2,
+    basePath: "/immobili",
+    items: [
+      { label: "Tutte le realtà", href: "/immobili", icon: Building2 },
+      { label: "Affitti Brevi", href: "/immobili/affitti-brevi", icon: Home },
+      { label: "Appartamenti", href: "/immobili/appartamenti", icon: Building },
+      { label: "Hotel / Strutture", href: "/immobili/hotel", icon: Hotel },
+    ],
+  },
+  {
+    label: "Compravendite",
+    icon: Repeat,
+    basePath: "/compravendite",
+    items: [
+      { label: "Operazioni", href: "/compravendite", icon: Repeat },
+      { label: "Acquisti", href: "/compravendite/acquisti", icon: Repeat },
+      { label: "Vendite", href: "/compravendite/vendite", icon: Repeat },
+    ],
+  },
+  {
+    label: "Contabilità",
+    icon: BookOpen,
+    basePath: "/contabilita",
+    items: [
+      { label: "Prima Nota", href: "/contabilita/prima-nota", icon: BookOpen },
+      { label: "Piano dei Conti", href: "/contabilita/piano-dei-conti", icon: ListTree },
+      { label: "Fatture", href: "/contabilita/fatture", icon: FileText },
+      { label: "Clienti", href: "/contabilita/clienti", icon: Users },
+      { label: "Fornitori", href: "/contabilita/fornitori", icon: Truck },
+      { label: "Pagamenti", href: "/contabilita/pagamenti", icon: Wallet },
+      { label: "Banche", href: "/contabilita/banche", icon: Landmark },
+      { label: "Cassa", href: "/contabilita/cassa", icon: Banknote },
+      { label: "IVA", href: "/contabilita/iva", icon: Percent },
+      { label: "Scadenze", href: "/contabilita/scadenze", icon: CalendarClock },
+    ],
+  },
+  { label: "Report", href: "/report", icon: BarChart3 },
+  { label: "Documenti", href: "/documenti", icon: FolderOpen },
+  { label: "Impostazioni", href: "/impostazioni", icon: Settings },
+];
+
+export function Sidebar({ companyName }: { companyName: string }) {
+  const pathname = usePathname();
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() => {
+    const initial: Record<string, boolean> = {};
+    for (const entry of NAV) {
+      if (isGroup(entry)) {
+        initial[entry.label] = pathname.startsWith(entry.basePath);
+      }
+    }
+    return initial;
+  });
+
+  return (
+    <aside className="flex h-full w-64 shrink-0 flex-col border-r border-neutral-200 bg-white">
+      <div className="flex items-center gap-2 border-b border-neutral-200 px-5 py-5">
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600 text-sm font-semibold text-white">
+          FC
+        </div>
+        <div>
+          <p className="text-sm font-semibold leading-tight text-neutral-900">
+            FinanzaCore
+          </p>
+          <p className="truncate text-xs leading-tight text-neutral-500">
+            {companyName}
+          </p>
+        </div>
+      </div>
+
+      <nav className="flex-1 overflow-y-auto px-3 py-4">
+        <ul className="space-y-1">
+          {NAV.map((entry) => {
+            if (!isGroup(entry)) {
+              const Icon = entry.icon;
+              const active = pathname === entry.href;
+              return (
+                <li key={entry.href}>
+                  <Link
+                    href={entry.href}
+                    className={clsx(
+                      "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                      active
+                        ? "bg-brand-50 text-brand-700"
+                        : "text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900"
+                    )}
+                  >
+                    <Icon className="h-4 w-4 shrink-0" />
+                    {entry.label}
+                  </Link>
+                </li>
+              );
+            }
+
+            const Icon = entry.icon;
+            const groupActive = pathname.startsWith(entry.basePath);
+            const isOpen = openGroups[entry.label] ?? groupActive;
+
+            return (
+              <li key={entry.label}>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setOpenGroups((prev) => ({
+                      ...prev,
+                      [entry.label]: !isOpen,
+                    }))
+                  }
+                  className={clsx(
+                    "flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                    groupActive
+                      ? "text-brand-700"
+                      : "text-neutral-700 hover:bg-neutral-100"
+                  )}
+                >
+                  <Icon className="h-4 w-4 shrink-0" />
+                  <span className="flex-1 text-left">{entry.label}</span>
+                  <ChevronDown
+                    className={clsx(
+                      "h-3.5 w-3.5 shrink-0 text-neutral-400 transition-transform",
+                      isOpen && "rotate-180"
+                    )}
+                  />
+                </button>
+                {isOpen && (
+                  <ul className="mt-1 space-y-0.5 border-l border-neutral-200 pl-4">
+                    {entry.items.map((item) => {
+                      const ItemIcon = item.icon;
+                      const active = pathname === item.href;
+                      return (
+                        <li key={item.href}>
+                          <Link
+                            href={item.href}
+                            className={clsx(
+                              "flex items-center gap-2.5 rounded-lg px-3 py-1.5 text-sm transition-colors",
+                              active
+                                ? "bg-brand-50 font-medium text-brand-700"
+                                : "text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900"
+                            )}
+                          >
+                            <ItemIcon className="h-3.5 w-3.5 shrink-0" />
+                            {item.label}
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
+    </aside>
+  );
+}
