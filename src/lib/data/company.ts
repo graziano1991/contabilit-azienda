@@ -4,6 +4,7 @@ export type CurrentCompany = {
   id: string;
   name: string;
   role: string;
+  securityVerified: boolean;
 };
 
 /**
@@ -22,7 +23,7 @@ export async function getCurrentCompany(
 
   const { data, error } = await supabase
     .from("company_users")
-    .select("role, companies(id, name)")
+    .select("role, security_verified, companies(id, name)")
     .eq("user_id", user.id)
     .limit(1)
     .maybeSingle();
@@ -35,5 +36,6 @@ export async function getCurrentCompany(
     id: company.id,
     name: company.name,
     role: data.role,
+    securityVerified: data.security_verified ?? false,
   };
 }

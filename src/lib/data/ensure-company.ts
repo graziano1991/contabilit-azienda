@@ -6,9 +6,9 @@ import type { CurrentCompany } from "./company";
  * automaticamente all'unica azienda condivisa tramite la funzione database
  * `join_default_company` (gira con privilegi elevati per bypassare in modo
  * controllato le policy RLS che altrimenti impedirebbero a un utente nuovo
- * di leggere o creare la propria azienda). Nessuna logica di creazione qui
- * lato app: un'unica chiamata, sempre valida sia al primo accesso che ai
- * successivi.
+ * di leggere o creare la propria azienda). Restituisce anche lo stato della
+ * verifica di sicurezza (security_verified), controllato lato server dal
+ * layout prima di mostrare qualunque pagina dell'app.
  */
 export async function ensureCompanyForUser(
   supabase: SupabaseClient
@@ -25,6 +25,17 @@ export async function ensureCompanyForUser(
 
   if (error || !data) return null;
 
-  const row = data as { id: string; name: string; role: string };
-  return { id: row.id, name: row.name, role: row.role };
+  const row = data as {
+    id: string;
+    name: string;
+    role: string;
+    security_verified: boolean;
+  };
+
+  return {
+    id: row.id,
+    name: row.name,
+    role: row.role,
+    securityVerified: row.security_verified,
+  };
 }

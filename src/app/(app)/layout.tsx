@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { ensureCompanyForUser } from "@/lib/data/ensure-company";
 import { Sidebar } from "@/components/sidebar";
 import { Topbar } from "@/components/topbar";
+import { SecurityGate } from "@/components/security-gate";
 
 export default async function AppLayout({
   children,
@@ -39,6 +40,15 @@ export default async function AppLayout({
         </div>
       </div>
     );
+  }
+
+  // Verifica di sicurezza obbligatoria, controllata lato server: nessuna
+  // pagina dell'app (dashboard compresa) viene renderizzata finché l'utente
+  // non ha inserito la password di sicurezza corretta. Non è aggirabile
+  // modificando il frontend perché il controllo avviene qui, prima che
+  // "children" venga anche solo montato.
+  if (!company.securityVerified) {
+    return <SecurityGate />;
   }
 
   return (
