@@ -3,7 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff, Lock } from "lucide-react";
+import clsx from "clsx";
 import { verifySecurityPassword } from "@/lib/actions/security-gate";
+import { labelClass, primaryButtonClass } from "@/lib/ui";
 
 // Schermata a blocco totale: nessun modo di chiuderla o saltarla, nessun
 // link verso altre sezioni. Resta l'unica cosa renderizzata finché il
@@ -47,7 +49,7 @@ export function SecurityGate() {
 
       <div className="relative w-full max-w-sm rounded-2xl border border-white/10 bg-white p-8 shadow-2xl">
         <div className="mb-6 flex flex-col items-center text-center">
-          <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 text-brand-700">
+          <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-brand-50 to-accent-50 text-brand-700 shadow-sm">
             <Lock className="h-6 w-6" />
           </div>
           <h1 className="text-lg font-semibold text-neutral-900">
@@ -60,9 +62,7 @@ export function SecurityGate() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="mb-1 block text-sm font-medium text-neutral-700">
-              Password di sicurezza
-            </label>
+            <label className={labelClass}>Password di sicurezza</label>
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
@@ -70,12 +70,12 @@ export function SecurityGate() {
                 autoFocus
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
-                className="w-full rounded-lg border border-neutral-300 px-3 py-2 pr-10 text-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
+                className="w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 pr-10 text-sm shadow-sm transition-all focus:border-accent-500 focus:outline-none focus:ring-2 focus:ring-accent-200 hover:border-neutral-400"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword((s) => !s)}
-                className="absolute inset-y-0 right-0 flex items-center px-3 text-neutral-400 hover:text-neutral-600"
+                className="absolute inset-y-0 right-0 flex items-center px-3 text-neutral-400 transition-colors hover:text-accent-600"
                 aria-label={showPassword ? "Nascondi password" : "Mostra password"}
               >
                 {showPassword ? (
@@ -96,7 +96,7 @@ export function SecurityGate() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-lg bg-brand-600 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-brand-700 disabled:opacity-60"
+            className={clsx(primaryButtonClass, "w-full")}
           >
             {loading ? "Verifica…" : "Sblocca"}
           </button>

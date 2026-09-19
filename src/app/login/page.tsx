@@ -4,6 +4,8 @@ import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { inputClass, labelClass, primaryButtonClass } from "@/lib/ui";
+import clsx from "clsx";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -19,7 +21,7 @@ export default function LoginPage() {
     setError(null);
     setLoading(true);
 
-    const { error } =
+    const { data, error } =
       mode === "login"
         ? await supabase.auth.signInWithPassword({ email, password })
         : await supabase.auth.signUp({ email, password });
@@ -28,6 +30,16 @@ export default function LoginPage() {
 
     if (error) {
       setError(error.message);
+      return;
+    }
+
+    // La registrazione è andata a buon fine ma Supabase non ha creato una
+    // sessione attiva: significa che sul progetto è ancora attiva la
+    // conferma email. Meglio dirlo chiaramente che restare muti.
+    if (mode === "signup" && !data.session) {
+      setError(
+        "Account creato, ma per accedere serve confermare l'email che ti è appena arrivata (oppure disattivare la conferma email su Supabase)."
+      );
       return;
     }
 
@@ -66,28 +78,24 @@ export default function LoginPage() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="mb-1 block text-sm font-medium text-neutral-700">
-              Email
-            </label>
+            <label className={labelClass}>Email</label>
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
+              className={inputClass}
             />
           </div>
           <div>
-            <label className="mb-1 block text-sm font-medium text-neutral-700">
-              Password
-            </label>
+            <label className={labelClass}>Password</label>
             <input
               type="password"
               required
               minLength={6}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
+              className={inputClass}
             />
           </div>
 
@@ -98,7 +106,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-lg bg-brand-600 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-brand-700 disabled:opacity-60"
+            className={clsx(primaryButtonClass, "w-full")}
           >
             {loading ? "Attendere…" : mode === "login" ? "Accedi" : "Crea account"}
           </button>
@@ -107,7 +115,7 @@ export default function LoginPage() {
         <button
           type="button"
           onClick={() => setMode(mode === "login" ? "signup" : "login")}
-          className="mt-4 w-full text-center text-sm text-neutral-500 hover:text-neutral-700"
+          className="mt-4 w-full text-center text-sm text-neutral-500 transition-colors hover:text-accent-700"
         >
           {mode === "login"
             ? "Non hai un account? Registrati"

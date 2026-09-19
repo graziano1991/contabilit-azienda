@@ -20,6 +20,18 @@ const config: Config = {
           800: "#11254d",
           900: "#0b1a37",
         },
+        accent: {
+          50: "#ecfdf6",
+          100: "#d1faec",
+          200: "#a4f4db",
+          300: "#6ee8c5",
+          400: "#3ad4a8",
+          500: "#17af9c",
+          600: "#108f82",
+          700: "#0d7268",
+          800: "#0f5b54",
+          900: "#0f4a46",
+        },
         revenue: "#15a385",
         cost: "#c0392b",
         neutral: {
@@ -43,7 +55,15 @@ const config: Config = {
         "2xl": "1.25rem",
       },
       boxShadow: {
-        card: "0 1px 2px 0 rgb(15 23 42 / 0.04), 0 1px 6px -1px rgb(15 23 42 / 0.06)",
+        card: "0 1px 2px 0 rgb(15 23 42 / 0.04), 0 4px 16px -4px rgb(15 23 42 / 0.08)",
+        "card-hover": "0 2px 4px 0 rgb(15 23 42 / 0.06), 0 12px 28px -8px rgb(15 23 42 / 0.16)",
+        glow: "0 8px 24px -6px rgb(23 175 156 / 0.35)",
+      },
+      backgroundImage: {
+        "brand-gradient": "linear-gradient(135deg, #1e3f78 0%, #173263 55%, #108f82 130%)",
+      },
+      transitionTimingFunction: {
+        snappy: "cubic-bezier(0.2, 0.8, 0.2, 1)",
       },
     },
   },

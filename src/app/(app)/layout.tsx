@@ -52,7 +52,7 @@ export default async function AppLayout({
   }
 
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-neutral-50">
+    <div className="flex h-screen w-full overflow-hidden bg-gradient-to-br from-neutral-50 via-white to-accent-50/40">
       <Sidebar companyName={company.name} />
       <div className="flex min-w-0 flex-1 flex-col">
         <Topbar userEmail={user.email ?? ""} />

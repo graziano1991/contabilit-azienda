@@ -108,20 +108,20 @@ export function Sidebar({ companyName }: { companyName: string }) {
 
   return (
     <aside className="flex h-full w-64 shrink-0 flex-col border-r border-neutral-200 bg-white">
-      <div className="flex items-center gap-2 border-b border-neutral-200 px-5 py-5">
+      <div className="flex items-center gap-2.5 bg-brand-gradient px-5 py-5">
         <Image
           src="/logo.png"
           alt="FinanzaCore"
           width={32}
           height={32}
-          className="h-8 w-8 shrink-0 rounded-lg"
+          className="h-8 w-8 shrink-0 rounded-lg shadow-glow"
           priority
         />
-        <div>
-          <p className="text-sm font-semibold leading-tight text-neutral-900">
+        <div className="min-w-0">
+          <p className="text-sm font-semibold leading-tight text-white">
             FinanzaCore
           </p>
-          <p className="truncate text-xs leading-tight text-neutral-500">
+          <p className="truncate text-xs leading-tight text-white/60">
             {companyName}
           </p>
         </div>
@@ -138,10 +138,10 @@ export function Sidebar({ companyName }: { companyName: string }) {
                   <Link
                     href={entry.href}
                     className={clsx(
-                      "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                      "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-150",
                       active
-                        ? "bg-brand-50 text-brand-700"
-                        : "text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900"
+                        ? "bg-gradient-to-r from-brand-600 to-accent-600 text-white shadow-sm"
+                        : "text-neutral-600 hover:translate-x-0.5 hover:bg-accent-50 hover:text-brand-700"
                     )}
                   >
                     <Icon className="h-4 w-4 shrink-0" />
@@ -166,9 +166,9 @@ export function Sidebar({ companyName }: { companyName: string }) {
                     }))
                   }
                   className={clsx(
-                    "flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                    "flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-150",
                     groupActive
-                      ? "text-brand-700"
+                      ? "bg-accent-50 text-brand-700"
                       : "text-neutral-700 hover:bg-neutral-100"
                   )}
                 >
@@ -176,13 +176,13 @@ export function Sidebar({ companyName }: { companyName: string }) {
                   <span className="flex-1 text-left">{entry.label}</span>
                   <ChevronDown
                     className={clsx(
-                      "h-3.5 w-3.5 shrink-0 text-neutral-400 transition-transform",
+                      "h-3.5 w-3.5 shrink-0 text-neutral-400 transition-transform duration-200",
                       isOpen && "rotate-180"
                     )}
                   />
                 </button>
                 {isOpen && (
-                  <ul className="mt-1 space-y-0.5 border-l border-neutral-200 pl-4">
+                  <ul className="mt-1 space-y-0.5 border-l-2 border-accent-100 pl-4">
                     {entry.items.map((item) => {
                       const ItemIcon = item.icon;
                       const active = pathname === item.href;
@@ -191,10 +191,10 @@ export function Sidebar({ companyName }: { companyName: string }) {
                           <Link
                             href={item.href}
                             className={clsx(
-                              "flex items-center gap-2.5 rounded-lg px-3 py-1.5 text-sm transition-colors",
+                              "flex items-center gap-2.5 rounded-lg px-3 py-1.5 text-sm transition-all duration-150",
                               active
-                                ? "bg-brand-50 font-medium text-brand-700"
-                                : "text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900"
+                                ? "bg-accent-50 font-medium text-accent-800"
+                                : "text-neutral-600 hover:translate-x-0.5 hover:bg-accent-50 hover:text-brand-700"
                             )}
                           >
                             <ItemIcon className="h-3.5 w-3.5 shrink-0" />
