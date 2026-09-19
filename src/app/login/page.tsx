@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
@@ -38,9 +39,14 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-neutral-50 px-4">
       <div className="w-full max-w-sm rounded-2xl border border-neutral-200 bg-white p-8 shadow-card">
         <div className="mb-6 flex flex-col items-center text-center">
-          <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-brand-600 text-sm font-semibold text-white">
-            FC
-          </div>
+          <Image
+            src="/logo.png"
+            alt="FinanzaCore"
+            width={56}
+            height={56}
+            className="mb-3 h-14 w-14 rounded-xl"
+            priority
+          />
           <h1 className="text-lg font-semibold text-neutral-900">FinanzaCore</h1>
           <p className="mt-1 text-sm text-neutral-500">
             Centro di controllo finanziario e operativo

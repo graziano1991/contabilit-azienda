@@ -4,6 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "FinanzaCore",
   description: "Centro di controllo finanziario e operativo dell'azienda",
+  themeColor: "#0b1a37",
 };
 
 export default function RootLayout({

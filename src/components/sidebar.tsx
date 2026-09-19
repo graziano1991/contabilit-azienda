@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -106,9 +107,14 @@ export function Sidebar({ companyName }: { companyName: string }) {
   return (
     <aside className="flex h-full w-64 shrink-0 flex-col border-r border-neutral-200 bg-white">
       <div className="flex items-center gap-2 border-b border-neutral-200 px-5 py-5">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600 text-sm font-semibold text-white">
-          FC
-        </div>
+        <Image
+          src="/logo.png"
+          alt="FinanzaCore"
+          width={32}
+          height={32}
+          className="h-8 w-8 shrink-0 rounded-lg"
+          priority
+        />
         <div>
           <p className="text-sm font-semibold leading-tight text-neutral-900">
             FinanzaCore
