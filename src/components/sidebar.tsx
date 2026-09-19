@@ -25,6 +25,7 @@ import {
   Settings,
   ChevronDown,
   Building,
+  UserCog,
 } from "lucide-react";
 import clsx from "clsx";
 
@@ -89,6 +90,7 @@ const NAV: NavEntry[] = [
   },
   { label: "Report", href: "/report", icon: BarChart3 },
   { label: "Documenti", href: "/documenti", icon: FolderOpen },
+  { label: "Utenti", href: "/impostazioni/utenti", icon: UserCog },
   { label: "Impostazioni", href: "/impostazioni", icon: Settings },
 ];
 

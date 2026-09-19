@@ -30,10 +30,14 @@ npm run dev
    policy di Row Level Security che isolano i dati per azienda.
 4. In **Authentication → Providers**, l'email/password è già attiva di
    default: è il metodo di login usato dall'app.
+5. Esegui anche `supabase/migrations/0002_company_users_email.sql` (aggiunge
+   la colonna email alla tabella dei membri, usata dalla pagina "Utenti").
 
-Al primo accesso, l'app chiede di creare l'azienda (schermata "Crea la tua
-azienda"): da lì in poi tutti i dati inseriti sono automaticamente collegati
-a quell'azienda.
+Chiunque si registri (email personale + password + codice di accesso
+`FUTURI MILIONARI`) entra automaticamente nell'unica azienda condivisa —
+creata al volo per la primissima persona che si registra. Da quel momento
+tutti i dati inseriti sono collegati a quell'azienda, e l'elenco di chi si è
+registrato è visibile nella sezione "Utenti".
 
 ## Deploy su Vercel
 

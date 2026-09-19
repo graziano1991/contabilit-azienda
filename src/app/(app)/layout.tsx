@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { getCurrentCompany } from "@/lib/data/company";
+import { ensureCompanyForUser } from "@/lib/data/ensure-company";
 import { Sidebar } from "@/components/sidebar";
 import { Topbar } from "@/components/topbar";
 
@@ -19,10 +19,13 @@ export default async function AppLayout({
     redirect("/login");
   }
 
-  const company = await getCurrentCompany(supabase);
+  // App privata mono-azienda: chi si registra entra automaticamente
+  // nell'azienda (creata al volo se non esiste ancora), nessuno step
+  // separato di "crea azienda".
+  const company = await ensureCompanyForUser(supabase);
 
   if (!company) {
-    redirect("/onboarding");
+    redirect("/login");
   }
 
   return (
