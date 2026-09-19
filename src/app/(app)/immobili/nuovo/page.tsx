@@ -31,7 +31,7 @@ export default function NuovaRealtaPage() {
             <Link
               key={opt.type}
               href={opt.href}
-              className="flex flex-col items-start rounded-2xl border border-neutral-200 bg-white p-5 shadow-card transition-shadow hover:shadow-md"
+              className="flex flex-col items-start rounded-2xl border border-neutral-200 bg-white p-5 shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:border-accent-200 hover:shadow-card-hover active:scale-[0.98]"
             >
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-50 text-brand-600">
                 <Icon className="h-5 w-5" />

@@ -22,7 +22,7 @@ export function RealityCard({
   return (
     <Link
       href={`/realta/${id}`}
-      className="group flex flex-col rounded-2xl border border-neutral-200 bg-white p-4 shadow-card transition-shadow hover:shadow-md"
+      className="group flex flex-col rounded-2xl border border-neutral-200 bg-white p-4 shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:border-accent-200 hover:shadow-card-hover active:scale-[0.98]"
     >
       <div className="flex items-center gap-2">
         <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-50 text-brand-600">

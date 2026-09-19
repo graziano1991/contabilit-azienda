@@ -1,8 +1,7 @@
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { createClient, getAuthUser } from "@/lib/supabase/server";
 import { ensureCompanyForUser } from "@/lib/data/ensure-company";
-import { Sidebar } from "@/components/sidebar";
-import { Topbar } from "@/components/topbar";
+import { AppShell } from "@/components/app-shell";
 import { SecurityGate } from "@/components/security-gate";
 
 export default async function AppLayout({
@@ -11,10 +10,7 @@ export default async function AppLayout({
   children: React.ReactNode;
 }) {
   const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getAuthUser();
 
   if (!user) {
     redirect("/login");
@@ -52,12 +48,8 @@ export default async function AppLayout({
   }
 
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-gradient-to-br from-neutral-50 via-white to-accent-50/40">
-      <Sidebar companyName={company.name} />
-      <div className="flex min-w-0 flex-1 flex-col">
-        <Topbar userEmail={user.email ?? ""} />
-        <main className="flex-1 overflow-y-auto px-6 py-6">{children}</main>
-      </div>
-    </div>
+    <AppShell companyName={company.name} userEmail={user.email ?? ""}>
+      {children}
+    </AppShell>
   );
 }

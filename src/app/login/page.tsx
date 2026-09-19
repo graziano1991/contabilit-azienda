@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { inputClass, labelClass, primaryButtonClass } from "@/lib/ui";
+import { Spinner } from "@/components/ui/spinner";
 import clsx from "clsx";
 
 export default function LoginPage() {
@@ -108,6 +109,7 @@ export default function LoginPage() {
             disabled={loading}
             className={clsx(primaryButtonClass, "w-full")}
           >
+            {loading && <Spinner />}
             {loading ? "Attendere…" : mode === "login" ? "Accedi" : "Crea account"}
           </button>
         </form>

@@ -1,4 +1,6 @@
+import { cache } from "react";
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { getAuthUser } from "@/lib/supabase/server";
 import type { CurrentCompany } from "./company";
 
 /**
@@ -9,13 +11,16 @@ import type { CurrentCompany } from "./company";
  * di leggere o creare la propria azienda). Restituisce anche lo stato della
  * verifica di sicurezza (security_verified), controllato lato server dal
  * layout prima di mostrare qualunque pagina dell'app.
+ *
+ * Avvolta in `cache()`: viene chiamata dal layout e (tramite
+ * getCurrentCompany, che ora delega qui) da ogni singola pagina. Senza
+ * memoizzazione questo significava una query extra al database a ogni
+ * navigazione, per rileggere dati già noti nello stesso ciclo di richiesta.
  */
-export async function ensureCompanyForUser(
+async function ensureCompanyForUserImpl(
   supabase: SupabaseClient
 ): Promise<CurrentCompany | null> {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getAuthUser();
 
   if (!user) return null;
 
@@ -39,3 +44,5 @@ export async function ensureCompanyForUser(
     securityVerified: row.security_verified,
   };
 }
+
+export const ensureCompanyForUser = cache(ensureCompanyForUserImpl);

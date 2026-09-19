@@ -45,7 +45,7 @@ export default async function ImmobiliPage() {
             <Link
               key={s.type}
               href={`/immobili/${REALITY_TYPE_PATH[s.type as RealityType]}`}
-              className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-card transition-shadow hover:shadow-md"
+              className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:border-accent-200 hover:shadow-card-hover active:scale-[0.98]"
             >
               <div className="flex items-center gap-2">
                 <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-50 text-brand-600">

@@ -6,6 +6,7 @@ import { Eye, EyeOff, Lock } from "lucide-react";
 import clsx from "clsx";
 import { verifySecurityPassword } from "@/lib/actions/security-gate";
 import { labelClass, primaryButtonClass } from "@/lib/ui";
+import { Spinner } from "@/components/ui/spinner";
 
 // Schermata a blocco totale: nessun modo di chiuderla o saltarla, nessun
 // link verso altre sezioni. Resta l'unica cosa renderizzata finché il
@@ -98,6 +99,7 @@ export function SecurityGate() {
             disabled={loading}
             className={clsx(primaryButtonClass, "w-full")}
           >
+            {loading && <Spinner />}
             {loading ? "Verifica…" : "Sblocca"}
           </button>
         </form>

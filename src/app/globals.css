@@ -75,3 +75,18 @@ tbody tr:hover {
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
+/* Rispetta la preferenza di sistema "riduci animazioni": chi la attiva lo fa
+   per motivi di comfort/accessibilità (vestibolari, sensibilità al
+   movimento), quindi tutte le transizioni e animazioni dell'app si azzerano
+   invece di ignorare la scelta. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
