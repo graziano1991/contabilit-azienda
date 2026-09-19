@@ -4,12 +4,14 @@ import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { verifySignupCode } from "@/lib/actions/access-code";
 
 export default function LoginPage() {
   const router = useRouter();
   const supabase = createClient();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [accessCode, setAccessCode] = useState("");
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -18,6 +20,15 @@ export default function LoginPage() {
     e.preventDefault();
     setError(null);
     setLoading(true);
+
+    if (mode === "signup") {
+      const codeOk = await verifySignupCode(accessCode);
+      if (!codeOk) {
+        setLoading(false);
+        setError("Codice di accesso non valido.");
+        return;
+      }
+    }
 
     const { error } =
       mode === "login"
@@ -79,6 +90,20 @@ export default function LoginPage() {
               className="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
             />
           </div>
+          {mode === "signup" && (
+            <div>
+              <label className="mb-1 block text-sm font-medium text-neutral-700">
+                Codice di accesso
+              </label>
+              <input
+                type="text"
+                required
+                value={accessCode}
+                onChange={(e) => setAccessCode(e.target.value)}
+                className="w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
+              />
+            </div>
+          )}
 
           {error && (
             <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-cost">{error}</p>
