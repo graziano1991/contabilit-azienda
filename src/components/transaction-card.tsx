@@ -39,11 +39,11 @@ export function TransactionCard({
   return (
     <Link
       href={`/compravendite/${id}`}
-      className="group flex flex-col rounded-2xl border border-neutral-200 bg-white p-4 shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:border-accent-200 hover:shadow-card-hover active:scale-[0.98]"
+      className="group flex animate-fade-in-up flex-col rounded-2xl border border-neutral-200/80 bg-white p-4 shadow-ambient transition-all duration-200 ease-snappy hover:-translate-y-1 hover:border-accent-200 hover:shadow-card-hover active:scale-[0.98]"
     >
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-50 text-brand-600">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-50 text-brand-600 transition-transform duration-200 group-hover:scale-110">
             <Repeat className="h-4 w-4" />
           </div>
           <p className="truncate text-sm font-semibold text-neutral-900">{name}</p>

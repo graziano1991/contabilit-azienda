@@ -8,14 +8,16 @@ export function PageHeader({
   action?: React.ReactNode;
 }) {
   return (
-    <div className="mb-6 flex items-start justify-between gap-4">
+    <div className="mb-7 flex animate-fade-in-up items-start justify-between gap-4">
       <div>
-        <div className="flex items-center gap-2.5">
-          <span className="h-6 w-1.5 rounded-full bg-gradient-to-b from-brand-600 to-accent-500" />
-          <h2 className="text-xl font-semibold text-neutral-900">{title}</h2>
+        <div className="flex items-center gap-3">
+          <span className="h-7 w-1.5 rounded-full bg-gradient-to-b from-brand-600 to-accent-500 shadow-glow" />
+          <h2 className="text-2xl font-semibold tracking-tight text-neutral-900">
+            {title}
+          </h2>
         </div>
         {description && (
-          <p className="mt-1 pl-4 text-sm text-neutral-500">{description}</p>
+          <p className="mt-1.5 pl-4 text-sm text-neutral-500">{description}</p>
         )}
       </div>
       {action}

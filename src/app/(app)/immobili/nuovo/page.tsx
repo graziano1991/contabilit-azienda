@@ -24,16 +24,16 @@ export default function NuovaRealtaPage() {
   return (
     <div>
       <PageHeader title="Cosa vuoi aggiungere?" description="Scegli il tipo di realtà: ognuna ha una scheda dedicata." />
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="stagger-children grid grid-cols-1 gap-4 sm:grid-cols-3">
         {OPTIONS.map((opt) => {
           const Icon = REALITY_TYPE_ICON[opt.type];
           return (
             <Link
               key={opt.type}
               href={opt.href}
-              className="flex flex-col items-start rounded-2xl border border-neutral-200 bg-white p-5 shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:border-accent-200 hover:shadow-card-hover active:scale-[0.98]"
+              className="group flex flex-col items-start rounded-2xl border border-neutral-200/80 bg-white p-5 shadow-ambient transition-all duration-200 ease-snappy hover:-translate-y-1 hover:border-accent-200 hover:shadow-card-hover active:scale-[0.98]"
             >
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-50 text-brand-600">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-600 transition-transform duration-200 group-hover:scale-110">
                 <Icon className="h-5 w-5" />
               </div>
               <p className="mt-3 text-sm font-semibold text-neutral-900">

@@ -38,17 +38,17 @@ export default async function ImmobiliPage() {
         }
       />
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="stagger-children grid grid-cols-1 gap-4 sm:grid-cols-3">
         {summaries.map((s) => {
           const Icon = REALITY_TYPE_ICON[s.type as RealityType];
           return (
             <Link
               key={s.type}
               href={`/immobili/${REALITY_TYPE_PATH[s.type as RealityType]}`}
-              className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-card transition-all duration-200 hover:-translate-y-0.5 hover:border-accent-200 hover:shadow-card-hover active:scale-[0.98]"
+              className="group rounded-2xl border border-neutral-200/80 bg-white p-5 shadow-ambient transition-all duration-200 ease-snappy hover:-translate-y-1 hover:border-accent-200 hover:shadow-card-hover active:scale-[0.98]"
             >
               <div className="flex items-center gap-2">
-                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-50 text-brand-600">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-50 text-brand-600 transition-transform duration-200 group-hover:scale-110">
                   <Icon className="h-4.5 w-4.5" />
                 </div>
                 <div>
@@ -93,7 +93,7 @@ export default async function ImmobiliPage() {
             }
           />
         ) : (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="stagger-children grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {allRealities.map((r) => (
               <RealityCard
                 key={r.id}

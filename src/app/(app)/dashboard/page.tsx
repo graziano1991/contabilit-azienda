@@ -24,7 +24,7 @@ export default async function DashboardPage() {
         description={company.name}
       />
 
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+      <div className="stagger-children grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
         <KpiCard label="Ricavi totali" value={formatCurrency(data.totalRevenue)} tone="revenue" />
         <KpiCard label="Costi totali" value={formatCurrency(data.totalCost)} tone="cost" />
         <KpiCard label="Utile" value={formatCurrency(data.totalProfit)} tone="profit" />
@@ -44,7 +44,7 @@ export default async function DashboardPage() {
             description="Aggiungi il tuo primo affitto breve, appartamento, hotel o operazione di compravendita per iniziare a vedere i numeri qui."
           />
         ) : (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="stagger-children grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {data.realities.map((r) => (
               <RealityCard
                 key={r.reality_id}

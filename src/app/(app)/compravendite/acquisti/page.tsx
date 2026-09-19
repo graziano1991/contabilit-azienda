@@ -31,7 +31,7 @@ export default async function AcquistiPage() {
       {items.length === 0 ? (
         <EmptyState title="Nessuna operazione in corso" />
       ) : (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="stagger-children grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {items.map((t) => (
             <TransactionCard
               key={t.id}
