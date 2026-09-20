@@ -8,7 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/empty-state";
 import { RealityFilter } from "@/components/reality-filter";
 import { formatCurrency, formatDate } from "@/lib/format";
-import { tableWrapperClass, thClass, tdClass, inputClass, labelClass, selectClass, primaryButtonClass } from "@/lib/ui";
+import { tableWrapperClass, thClass, tdClass, inputClass, labelClass, selectClass } from "@/lib/ui";
+import { SubmitButton } from "@/components/ui/submit-button";
 
 export default async function PagamentiPage({
   searchParams,
@@ -81,7 +82,7 @@ export default async function PagamentiPage({
             </select>
           </div>
           <div className="sm:col-span-6 flex justify-end">
-            <button type="submit" className={primaryButtonClass}>Registra pagamento</button>
+            <SubmitButton>Registra pagamento</SubmitButton>
           </div>
         </form>
       </Card>

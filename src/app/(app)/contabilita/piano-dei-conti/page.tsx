@@ -6,7 +6,8 @@ import { PageHeader } from "@/components/ui/page-header";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/empty-state";
-import { tableWrapperClass, thClass, tdClass, inputClass, labelClass, selectClass, primaryButtonClass } from "@/lib/ui";
+import { tableWrapperClass, thClass, tdClass, inputClass, labelClass, selectClass } from "@/lib/ui";
+import { SubmitButton } from "@/components/ui/submit-button";
 
 const TYPE_LABEL: Record<string, string> = {
   ricavo: "Ricavo",
@@ -56,7 +57,7 @@ export default async function PianoDeiContiPage() {
               ))}
             </select>
           </div>
-          <button type="submit" className={primaryButtonClass}>Aggiungi conto</button>
+          <SubmitButton>Aggiungi conto</SubmitButton>
         </form>
       </Card>
 

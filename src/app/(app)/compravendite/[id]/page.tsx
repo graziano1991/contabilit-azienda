@@ -13,7 +13,8 @@ import {
   FormSection,
 } from "@/components/ui/form-field";
 import { formatCurrency, formatPercent, formatDate } from "@/lib/format";
-import { primaryButtonClass, tableWrapperClass, thClass, tdClass, inputClass, labelClass } from "@/lib/ui";
+import { tableWrapperClass, thClass, tdClass, inputClass, labelClass } from "@/lib/ui";
+import { SubmitButton } from "@/components/ui/submit-button";
 
 const STATUS_OPTIONS = [
   { value: "analisi", label: "Analisi" },
@@ -119,9 +120,7 @@ export default async function TransactionDetailPage({
             </FormSection>
 
             <div className="flex justify-end">
-              <button type="submit" className={primaryButtonClass}>
-                Salva modifiche
-              </button>
+              <SubmitButton>Salva modifiche</SubmitButton>
             </div>
           </form>
         </Card>
@@ -180,9 +179,7 @@ export default async function TransactionDetailPage({
               <input name="amount" type="number" step="0.01" className={inputClass} />
             </div>
             <div className="sm:col-span-1">
-              <button type="submit" className={`${primaryButtonClass} w-full`}>
-                Aggiungi
-              </button>
+              <SubmitButton className="w-full">Aggiungi</SubmitButton>
             </div>
           </form>
         </Card>

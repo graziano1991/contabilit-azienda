@@ -6,7 +6,8 @@ import { PageHeader } from "@/components/ui/page-header";
 import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { formatDate } from "@/lib/format";
-import { tableWrapperClass, thClass, tdClass, inputClass, labelClass, selectClass, primaryButtonClass } from "@/lib/ui";
+import { tableWrapperClass, thClass, tdClass, inputClass, labelClass, selectClass } from "@/lib/ui";
+import { SubmitButton } from "@/components/ui/submit-button";
 
 export default async function DocumentiPage() {
   const supabase = await createClient();
@@ -52,7 +53,7 @@ export default async function DocumentiPage() {
             </select>
           </div>
           <div className="sm:col-span-6 flex justify-end">
-            <button type="submit" className={primaryButtonClass}>Aggiungi documento</button>
+            <SubmitButton>Aggiungi documento</SubmitButton>
           </div>
         </form>
       </Card>

@@ -4,7 +4,8 @@ import { createSupplier } from "@/lib/actions/accounting";
 import { PageHeader } from "@/components/ui/page-header";
 import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
-import { tableWrapperClass, thClass, tdClass, inputClass, labelClass, primaryButtonClass } from "@/lib/ui";
+import { tableWrapperClass, thClass, tdClass, inputClass, labelClass } from "@/lib/ui";
+import { SubmitButton } from "@/components/ui/submit-button";
 
 export default async function FornitoriPage() {
   const supabase = await createClient();
@@ -40,7 +41,7 @@ export default async function FornitoriPage() {
             <input name="phone" className={inputClass} />
           </div>
           <div className="sm:col-span-5 flex justify-end">
-            <button type="submit" className={primaryButtonClass}>Aggiungi fornitore</button>
+            <SubmitButton>Aggiungi fornitore</SubmitButton>
           </div>
         </form>
       </Card>

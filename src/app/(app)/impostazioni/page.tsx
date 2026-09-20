@@ -4,7 +4,8 @@ import { updateCompany } from "@/lib/actions/company";
 import { PageHeader } from "@/components/ui/page-header";
 import { Card } from "@/components/ui/card";
 import { TextField, FormSection } from "@/components/ui/form-field";
-import { primaryButtonClass } from "@/lib/ui";
+
+import { SubmitButton } from "@/components/ui/submit-button";
 
 export default async function ImpostazioniPage() {
   const supabase = await createClient();
@@ -31,9 +32,7 @@ export default async function ImpostazioniPage() {
           </FormSection>
 
           <div className="flex justify-end">
-            <button type="submit" className={primaryButtonClass}>
-              Salva modifiche
-            </button>
+            <SubmitButton>Salva modifiche</SubmitButton>
           </div>
         </form>
       </Card>

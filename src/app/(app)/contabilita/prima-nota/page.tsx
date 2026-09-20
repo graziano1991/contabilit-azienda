@@ -8,7 +8,8 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { RealityFilter } from "@/components/reality-filter";
 import { formatCurrency, formatDate } from "@/lib/format";
-import { tableWrapperClass, thClass, tdClass, inputClass, labelClass, selectClass, primaryButtonClass } from "@/lib/ui";
+import { tableWrapperClass, thClass, tdClass, inputClass, labelClass, selectClass } from "@/lib/ui";
+import { SubmitButton } from "@/components/ui/submit-button";
 import { EmptyState } from "@/components/ui/empty-state";
 
 export default async function PrimaNotaPage({
@@ -77,7 +78,7 @@ export default async function PrimaNotaPage({
             </select>
           </div>
           <div className="sm:col-span-7 flex justify-end">
-            <button type="submit" className={primaryButtonClass}>Registra movimento</button>
+            <SubmitButton>Registra movimento</SubmitButton>
           </div>
         </form>
       </Card>

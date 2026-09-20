@@ -8,7 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/empty-state";
 import { RealityFilter } from "@/components/reality-filter";
 import { formatCurrency, formatDate } from "@/lib/format";
-import { tableWrapperClass, thClass, tdClass, inputClass, labelClass, selectClass, primaryButtonClass } from "@/lib/ui";
+import { tableWrapperClass, thClass, tdClass, inputClass, labelClass, selectClass } from "@/lib/ui";
+import { SubmitButton } from "@/components/ui/submit-button";
 
 const STATUS_TONE: Record<string, "success" | "danger" | "warning" | "default"> = {
   incassata: "success",
@@ -115,7 +116,7 @@ export default async function FatturePage({
             </select>
           </div>
           <div className="sm:col-span-4 flex justify-end">
-            <button type="submit" className={primaryButtonClass}>Crea fattura</button>
+            <SubmitButton>Crea fattura</SubmitButton>
           </div>
         </form>
       </Card>

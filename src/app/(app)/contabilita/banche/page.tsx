@@ -6,7 +6,8 @@ import { Card } from "@/components/ui/card";
 import { KpiCard } from "@/components/ui/kpi-card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { formatCurrency } from "@/lib/format";
-import { inputClass, labelClass, primaryButtonClass } from "@/lib/ui";
+import { inputClass, labelClass } from "@/lib/ui";
+import { SubmitButton } from "@/components/ui/submit-button";
 
 export default async function BanchePage() {
   const supabase = await createClient();
@@ -42,7 +43,7 @@ export default async function BanchePage() {
             <input name="opening_balance" type="number" step="0.01" className={inputClass} />
           </div>
           <div className="sm:col-span-4 flex justify-end">
-            <button type="submit" className={primaryButtonClass}>Aggiungi conto</button>
+            <SubmitButton>Aggiungi conto</SubmitButton>
           </div>
         </form>
       </Card>

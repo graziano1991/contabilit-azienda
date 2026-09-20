@@ -7,7 +7,8 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/empty-state";
 import { formatCurrency, formatDate } from "@/lib/format";
-import { tableWrapperClass, thClass, tdClass, inputClass, labelClass, selectClass, primaryButtonClass } from "@/lib/ui";
+import { tableWrapperClass, thClass, tdClass, inputClass, labelClass, selectClass } from "@/lib/ui";
+import { SubmitButton } from "@/components/ui/submit-button";
 
 export default async function ScadenzePage() {
   const supabase = await createClient();
@@ -56,7 +57,7 @@ export default async function ScadenzePage() {
             </select>
           </div>
           <div className="sm:col-span-6 flex justify-end">
-            <button type="submit" className={primaryButtonClass}>Aggiungi scadenza</button>
+            <SubmitButton>Aggiungi scadenza</SubmitButton>
           </div>
         </form>
       </Card>

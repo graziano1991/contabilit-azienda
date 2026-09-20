@@ -3,7 +3,8 @@ import { createTransaction } from "@/lib/actions/transactions";
 import { PageHeader } from "@/components/ui/page-header";
 import { Card } from "@/components/ui/card";
 import { TextField, NumberField, DateField, FormSection } from "@/components/ui/form-field";
-import { primaryButtonClass, secondaryButtonClass } from "@/lib/ui";
+import { secondaryButtonClass } from "@/lib/ui";
+import { SubmitButton } from "@/components/ui/submit-button";
 
 export default function NuovaCompravenditaPage() {
   return (
@@ -41,9 +42,7 @@ export default function NuovaCompravenditaPage() {
             <Link href="/compravendite" className={secondaryButtonClass}>
               Annulla
             </Link>
-            <button type="submit" className={primaryButtonClass}>
-              Crea operazione
-            </button>
+            <SubmitButton>Crea operazione</SubmitButton>
           </div>
         </form>
       </Card>

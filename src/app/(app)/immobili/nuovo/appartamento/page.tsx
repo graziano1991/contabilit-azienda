@@ -9,7 +9,8 @@ import {
   TextAreaField,
   FormSection,
 } from "@/components/ui/form-field";
-import { primaryButtonClass, secondaryButtonClass } from "@/lib/ui";
+import { secondaryButtonClass } from "@/lib/ui";
+import { SubmitButton } from "@/components/ui/submit-button";
 import Link from "next/link";
 
 export default function NuovoAppartamentoPage() {
@@ -64,9 +65,7 @@ export default function NuovoAppartamentoPage() {
             <Link href="/immobili/nuovo" className={secondaryButtonClass}>
               Annulla
             </Link>
-            <button type="submit" className={primaryButtonClass}>
-              Crea realtà
-            </button>
+            <SubmitButton>Crea realtà</SubmitButton>
           </div>
         </form>
       </Card>
