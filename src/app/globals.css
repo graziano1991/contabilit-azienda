@@ -163,6 +163,17 @@ tbody tr:hover {
   color: transparent;
 }
 
+/* Nasconde la scrollbar del dock di navigazione orizzontale quando le voci
+   non ci stanno tutte (schermi stretti): resta scorrevole col dito/trackpad,
+   solo senza la barra grigia che romperebbe l'estetica "vetro" del dock. */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
 /* Placeholder di caricamento con un riflesso che scorre, invece del
    semplice pulse piatto: comunica più chiaramente "sta arrivando qualcosa"
    invece di "qualcosa è rotto e lampeggia". */

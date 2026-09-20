@@ -1,3 +1,6 @@
+"use client";
+
+import { useRef } from "react";
 import clsx from "clsx";
 import { TrendingUp, TrendingDown, Scale, Wallet } from "lucide-react";
 
@@ -37,9 +40,34 @@ export function KpiCard({
   hint?: string;
 }) {
   const Icon = ICON_BY_TONE[tone] ?? ICON_BY_TONE.neutral;
+  const ref = useRef<HTMLDivElement>(null);
+
+  // Glow che segue il cursore: sola CSS custom property aggiornata via
+  // ref (niente useState/re-render), radial-gradient in un layer separato
+  // che si accende in opacità all'hover — costa quanto una transizione di
+  // opacity, nessun calcolo pesante ad ogni frame.
+  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+    const el = ref.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    el.style.setProperty("--glow-x", `${((e.clientX - rect.left) / rect.width) * 100}%`);
+    el.style.setProperty("--glow-y", `${((e.clientY - rect.top) / rect.height) * 100}%`);
+  }
 
   return (
-    <div className="glass-panel group relative overflow-hidden rounded-2xl p-4 shadow-ambient transition-all duration-300 ease-snappy animate-fade-in-up hover:-translate-y-1 hover:border-white/20 hover:shadow-card-hover">
+    <div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      className="glass-panel group relative overflow-hidden rounded-2xl p-4 shadow-ambient transition-all duration-300 ease-snappy animate-fade-in-up hover:-translate-y-1 hover:border-white/20 hover:shadow-card-hover"
+    >
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{
+          background:
+            "radial-gradient(220px circle at var(--glow-x, 50%) var(--glow-y, 50%), rgba(217,70,239,0.12), transparent 70%)",
+        }}
+      />
       <span
         className={clsx(
           "absolute inset-x-0 top-0 h-1 bg-gradient-to-r opacity-80 transition-opacity duration-200 group-hover:opacity-100",

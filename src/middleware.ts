@@ -10,7 +10,7 @@ export async function middleware(request: NextRequest) {
   // a renderizzare qualunque pagina. Prima di questa modifica, il layout
   // dell'area privata rifaceva DA CAPO lo stesso identico giro di rete
   // (un'altra chiamata a getUser()) per sapere chi fosse l'utente — quindi
-  // ogni click su un link della sidebar costava due verifiche di rete in
+  // ogni click su un link del menu costava due verifiche di rete in
   // sequenza invece di una sola, prima ancora di arrivare alla query dati
   // vera e propria della pagina. Passiamo qui il risultato già verificato
   // al resto della richiesta tramite header interni: il layout/le pagine
