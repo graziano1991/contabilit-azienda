@@ -71,17 +71,21 @@ const config: Config = {
         // "text-neutral-900" ecc. già scritto in ~30 pagine continua a
         // funzionare, ma ora produce superfici scure e testo chiaro invece
         // che il contrario, senza dover toccare quelle pagine una per una.
+        // Scala grigia neutra vera (canali R/G/B bilanciati, non più con
+        // una dominante blu/indigo): è il colore di sfondo dell'intera
+        // app, richiesto esplicitamente come "grigio moderno, elegante,
+        // premium" invece del precedente sfondo scuro tendente al viola.
         neutral: {
-          50: "#05060d",
-          100: "#0a0c17",
-          200: "#141726",
-          300: "#1f2437",
-          400: "#7d84a0",
-          500: "#9aa1ba",
-          600: "#b6bcd1",
-          700: "#d2d5e4",
-          800: "#e8eaf2",
-          900: "#f8f9fc",
+          50: "#0c0c0d",
+          100: "#161617",
+          200: "#212123",
+          300: "#2d2d30",
+          400: "#7a7a80",
+          500: "#96969c",
+          600: "#b3b3b8",
+          700: "#d0d0d4",
+          800: "#e8e8ea",
+          900: "#f9f9fa",
           950: "#ffffff",
         },
       },
@@ -116,13 +120,14 @@ const config: Config = {
         "premium-gradient": "linear-gradient(115deg, #7c3aed 0%, #d946ef 50%, #22d3ee 100%)",
         "premium-gradient-soft": "linear-gradient(115deg, rgb(124 58 237 / 0.18) 0%, rgb(217 70 239 / 0.14) 50%, rgb(34 211 238 / 0.14) 100%)",
         "brand-gradient": "linear-gradient(135deg, #4c1d95 0%, #7c3aed 45%, #0891a8 100%)",
-        // Sfondo "aurora": la superficie scura di base dell'intera app (sia
-        // il guscio /app che login/security-gate), con macchie di colore
-        // molto sfumate che si muovono lentamente grazie a @keyframes
-        // aurora-drift più sotto — questo è il "background dinamico" che
-        // sostituisce il vecchio sfondo bianco piatto.
+        // Sfondo globale unico di TUTTA l'app (guscio /app, login,
+        // verifica di sicurezza): un grigio antracite premium, non piatto
+        // — profondità data da sfumature di grigio/blu-grigio molto
+        // sottili più un filo di colore del brand ai bordi (7% di
+        // opacità, appena percettibile), non più dalle macchie di colore
+        // sature di prima. Il grigio resta sempre il colore dominante.
         "aurora-mesh":
-          "radial-gradient(ellipse 80% 60% at 15% 10%, rgb(124 58 237 / 0.35), transparent 55%), radial-gradient(ellipse 70% 60% at 85% 15%, rgb(217 70 239 / 0.28), transparent 55%), radial-gradient(ellipse 80% 70% at 50% 100%, rgb(6 182 212 / 0.25), transparent 60%), radial-gradient(ellipse 60% 50% at 90% 90%, rgb(52 211 153 / 0.12), transparent 55%), #05050c",
+          "radial-gradient(ellipse 70% 55% at 15% 0%, rgb(148 163 184 / 0.12), transparent 55%), radial-gradient(ellipse 65% 55% at 100% 20%, rgb(124 58 237 / 0.07), transparent 55%), radial-gradient(ellipse 70% 60% at 50% 100%, rgb(34 211 238 / 0.05), transparent 60%), #131315",
         sheen: "linear-gradient(110deg, transparent 30%, rgb(255 255 255 / 0.14) 50%, transparent 70%)",
         "grid-dots": "radial-gradient(circle at 1px 1px, rgb(255 255 255 / 0.07) 1px, transparent 0)",
       },
@@ -179,6 +184,22 @@ const config: Config = {
       },
       backgroundSize: {
         "gradient-pan": "200% 200%",
+      },
+      // Gerarchia unica e centralizzata di tutti i livelli sovrapposti
+      // dell'app: ogni overlay (barra di navigazione, scrim invisibile,
+      // pannello a comparsa, in futuro toast/modal) usa uno di questi
+      // nomi invece di un numero scelto a mano file per file — così
+      // l'ordine "cosa sta sopra cosa" è sempre deducibile da qui, non
+      // sparso e potenzialmente incoerente nei singoli componenti.
+      zIndex: {
+        nav: "40",
+        scrim: "45",
+        popover: "50",
+        overlay: "55",
+        toast: "60",
+        "modal-backdrop": "70",
+        modal: "80",
+        critical: "100",
       },
     },
   },

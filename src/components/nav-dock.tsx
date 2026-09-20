@@ -162,7 +162,7 @@ export function NavDock({
           (identità+account sopra, navigazione sotto) invece di un'unica riga
           compressa: le etichette non vengono più troncate su schermi meno
           larghi, semplicemente la riga di navigazione va a capo. */}
-      <div className="sticky top-4 z-40 hidden justify-center px-4 md:flex">
+      <div className="sticky top-4 z-nav hidden justify-center px-4 md:flex">
         <nav className="glass-panel relative flex w-full max-w-7xl flex-col gap-2 rounded-2xl px-4 py-3 shadow-ambient">
           <div className="flex items-center justify-between gap-3">
             <Link
@@ -185,7 +185,10 @@ export function NavDock({
             <div className="relative shrink-0">
               <button
                 type="button"
-                onClick={() => setAccountOpen((v) => !v)}
+                onClick={() => {
+                  setOpenGroup(null);
+                  setAccountOpen((v) => !v);
+                }}
                 aria-label="Menu account"
                 aria-expanded={accountOpen}
                 className="flex h-9 w-9 items-center justify-center rounded-full bg-premium-gradient text-xs font-semibold text-white shadow-glow ring-1 ring-inset ring-white/15 transition-transform duration-150 ease-snappy hover:-translate-y-px active:translate-y-0 active:scale-95"
@@ -194,7 +197,7 @@ export function NavDock({
               </button>
 
               {accountOpen && (
-                <div className="glass-panel absolute right-0 top-[calc(100%+0.5rem)] z-50 w-64 overflow-hidden rounded-2xl p-1.5 shadow-card animate-fade-in-up">
+                <div className="overlay-panel absolute right-0 top-[calc(100%+0.5rem)] z-popover w-64 overflow-hidden rounded-2xl p-1.5 shadow-card animate-fade-in-up">
                   <div className="px-3 py-2.5">
                     <p className="truncate text-sm font-medium text-neutral-900">{userEmail}</p>
                     <p className="text-xs text-neutral-500">{companyName}</p>
@@ -243,7 +246,10 @@ export function NavDock({
                 <div key={entry.label} className="relative">
                   <button
                     type="button"
-                    onClick={() => setOpenGroup(isOpen ? null : entry.label)}
+                    onClick={() => {
+                      setAccountOpen(false);
+                      setOpenGroup(isOpen ? null : entry.label);
+                    }}
                     className={clsx(
                       "flex items-center gap-1.5 whitespace-nowrap rounded-xl px-2.5 py-2 text-sm font-medium transition-all duration-150",
                       groupActive || isOpen
@@ -262,7 +268,7 @@ export function NavDock({
                   </button>
 
                   {isOpen && (
-                    <div className="glass-panel absolute left-0 top-[calc(100%+0.5rem)] z-50 w-60 overflow-hidden rounded-2xl p-1.5 shadow-card animate-fade-in-up">
+                    <div className="overlay-panel absolute left-0 top-[calc(100%+0.5rem)] z-popover w-60 overflow-hidden rounded-2xl p-1.5 shadow-card animate-fade-in-up">
                       {entry.items.map((item) => {
                         const ItemIcon = item.icon;
                         const active = pathname === item.href;
@@ -295,7 +301,7 @@ export function NavDock({
           aperti cliccando fuori, senza dover gestire listener globali. */}
       {anyDesktopPanelOpen && (
         <div
-          className="fixed inset-0 z-30 hidden md:block"
+          className="fixed inset-0 z-scrim hidden md:block"
           aria-hidden="true"
           onClick={() => {
             setOpenGroup(null);
@@ -306,7 +312,7 @@ export function NavDock({
 
       {/* Barra sottile mobile: logo, avatar, hamburger. Il menu vero e
           proprio è l'overlay a schermo intero qui sotto. */}
-      <div className="glass-surface fixed inset-x-0 top-0 z-40 flex h-14 items-center justify-between border-b border-white/10 px-4 md:hidden">
+      <div className="glass-surface fixed inset-x-0 top-0 z-nav flex h-14 items-center justify-between border-b border-white/10 px-4 md:hidden">
         <Link href="/dashboard" className="flex items-center gap-2">
           <Image
             src="/logo.png"
@@ -321,7 +327,10 @@ export function NavDock({
         <div className="flex items-center gap-2">
           <button
             type="button"
-            onClick={() => setAccountOpen((v) => !v)}
+            onClick={() => {
+              setMobileOpen(false);
+              setAccountOpen((v) => !v);
+            }}
             aria-label="Menu account"
             className="flex h-8 w-8 items-center justify-center rounded-full bg-premium-gradient text-[11px] font-semibold text-white shadow-glow ring-1 ring-inset ring-white/15 active:scale-95"
           >
@@ -329,7 +338,10 @@ export function NavDock({
           </button>
           <button
             type="button"
-            onClick={() => setMobileOpen(true)}
+            onClick={() => {
+              setAccountOpen(false);
+              setMobileOpen(true);
+            }}
             aria-label="Apri menu"
             className="flex h-9 w-9 items-center justify-center rounded-lg text-white/80 transition-colors hover:bg-white/10 active:scale-95"
           >
@@ -341,8 +353,8 @@ export function NavDock({
       {/* Tendina account su mobile: stesso pannello del desktop, ancorato
           sotto la barra sottile invece che dentro il dock. */}
       {accountOpen && (
-        <div className="fixed inset-x-4 top-16 z-50 md:hidden">
-          <div className="glass-panel ml-auto w-64 overflow-hidden rounded-2xl p-1.5 shadow-card animate-fade-in-up">
+        <div className="fixed inset-x-4 top-16 z-popover md:hidden">
+          <div className="overlay-panel ml-auto w-64 overflow-hidden rounded-2xl p-1.5 shadow-card animate-fade-in-up">
             <div className="px-3 py-2.5">
               <p className="truncate text-sm font-medium text-neutral-900">{userEmail}</p>
               <p className="text-xs text-neutral-500">{companyName}</p>
@@ -361,7 +373,7 @@ export function NavDock({
       )}
       {accountOpen && (
         <div
-          className="fixed inset-0 z-40 md:hidden"
+          className="fixed inset-0 z-scrim md:hidden"
           aria-hidden="true"
           onClick={() => setAccountOpen(false)}
         />
@@ -371,7 +383,7 @@ export function NavDock({
           prima. Nessuna colonna fissa da tenere: il menu copre tutto,
           l'utente sceglie e torna al contenuto. */}
       {mobileOpen && (
-        <div className="fixed inset-0 z-50 flex flex-col bg-[#07050f]/98 backdrop-blur-xl md:hidden">
+        <div className="fixed inset-0 z-overlay flex flex-col bg-[#131315]/98 backdrop-blur-xl md:hidden">
           <div className="pointer-events-none absolute inset-0 bg-aurora-mesh opacity-60" />
           <div className="relative flex items-center justify-between border-b border-white/10 px-5 py-4">
             <span className="text-sm font-semibold text-white">Menu</span>

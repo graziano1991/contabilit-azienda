@@ -13,15 +13,17 @@ html {
 
 body {
   @apply text-neutral-900 antialiased;
-  /* Base scura: l'aurora animata qui sotto (body::before) sta sopra questo
-     colore, che resta visibile ai bordi/durante il caricamento del CSS. */
-  background-color: #05050c;
+  /* Base grigia: l'aurora animata qui sotto (body::before) sta sopra questo
+     colore, che resta visibile ai bordi/durante il caricamento del CSS.
+     Stesso grigio antracite della base di aurora-mesh, per zero scarto di
+     colore percepibile nel primissimo istante di caricamento. */
+  background-color: #131315;
   background-attachment: fixed;
 }
 
-/* Sfondo "aurora": macchie di colore molto sfumate (viola, fucsia, ciano,
-   verde smeraldo) che si muovono lentissimamente dietro a TUTTA l'app —
-   login, verifica di sicurezza e ogni pagina del gestionale, senza dover
+/* Sfondo globale unico di TUTTA l'app: grigio antracite con profondità
+   molto sottile (mai colore saturo), che si muove lentissimamente dietro
+   a login, verifica di sicurezza e ogni pagina del gestionale, senza dover
    ripetere questo sfondo pagina per pagina. Un pseudo-elemento fixed
    dietro al contenuto (z-index negativo) invece di un elemento reale:
    zero impatto sul layout, e l'animazione anima solo transform/opacity
@@ -124,19 +126,23 @@ tbody tr:hover {
   50% { transform: translate3d(2%, -3%, 0) scale(1.08); opacity: 1; }
 }
 
-/* Superficie "vetro" scura: usata da topbar e da ogni pannello che deve
-   restare leggibile e premium anche con contenuto/aurora che scorre
-   sotto. bg-white a bassissima opacità invece di un colore pieno, così lo
-   sfondo animato resta visibile in trasparenza dietro ogni superficie. */
+/* Superficie "vetro" scura: usata dalla barra di navigazione mobile e da
+   ogni pannello che deve restare leggibile e premium anche con
+   contenuto/sfondo che scorre sotto. bg-white a bassissima opacità invece
+   di un colore pieno, così lo sfondo animato resta visibile in trasparenza
+   dietro ogni superficie. Grigio neutro (non più blu/indigo), coerente col
+   nuovo sfondo globale. */
 .glass-surface {
-  background-color: rgb(10 12 23 / 0.55);
-  backdrop-filter: blur(16px) saturate(1.3);
-  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  background-color: rgb(14 14 15 / 0.6);
+  backdrop-filter: blur(16px) saturate(1.1);
+  -webkit-backdrop-filter: blur(16px) saturate(1.1);
 }
 
 /* Pannello "vetro" di base per card, tabelle, form: bordo sottile quasi
    invisibile che si accende leggermente in hover, leggero blur, ombra
-   "glow" invece della vecchia ombra morbida da tema chiaro. */
+   "glow" invece della vecchia ombra morbida da tema chiaro. Pensato per
+   contenuto che vive NEL flusso della pagina, non per elementi sovrapposti
+   ad altro contenuto leggibile — per quelli vedi .overlay-panel qui sotto. */
 .glass-panel {
   background-color: rgb(255 255 255 / 0.035);
   border: 1px solid rgb(255 255 255 / 0.08);
@@ -144,12 +150,26 @@ tbody tr:hover {
   -webkit-backdrop-filter: blur(20px);
 }
 
+/* Superficie per QUALSIASI elemento che si apre SOPRA altro contenuto già
+   leggibile: menu a comparsa, dropdown, in futuro modal/dialog/toast.
+   Deliberatamente quasi opaca (97%, non il 3.5% di .glass-panel): il testo
+   della pagina sottostante non deve mai essere leggibile attraverso un
+   pannello sovrapposto, solo un blur non lo garantisce in modo affidabile
+   su ogni sfondo/contenuto. Un solo posto dove questa regola è definita,
+   invece che ogni componente overlay che decide la propria opacità. */
+.overlay-panel {
+  background-color: rgb(21 21 23 / 0.97);
+  border: 1px solid rgb(255 255 255 / 0.1);
+  backdrop-filter: blur(24px) saturate(1.1);
+  -webkit-backdrop-filter: blur(24px) saturate(1.1);
+}
+
 /* Bordo con gradiente animato: usato sugli elementi che devono "wow" di
    più (card in evidenza, pannello di login). Un doppio background invece
    di un vero border-image, per poter arrotondare gli angoli liberamente. */
 .gradient-border {
   position: relative;
-  background: linear-gradient(rgb(8 9 18 / 0.9), rgb(8 9 18 / 0.9)) padding-box,
+  background: linear-gradient(rgb(17 17 19 / 0.92), rgb(17 17 19 / 0.92)) padding-box,
     linear-gradient(115deg, #7c3aed, #d946ef, #22d3ee) border-box;
   border: 1px solid transparent;
 }
