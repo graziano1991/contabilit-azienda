@@ -49,22 +49,13 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-brand-900 px-4">
-      {/* Sfondo decorativo: sfumature ispirate ai colori del logo, con due
-          macchie di luce che si muovono lentamente per dare dinamismo senza
-          distrarre dal form. */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(circle at 15% 20%, rgba(94,224,166,0.35), transparent 40%), radial-gradient(circle at 85% 15%, rgba(23,175,156,0.30), transparent 45%), radial-gradient(circle at 50% 100%, rgba(47,85,150,0.55), transparent 55%), linear-gradient(160deg, #0b1a37 0%, #11254d 45%, #173263 100%)",
-        }}
-      />
-      <div className="pointer-events-none absolute -left-24 top-1/4 h-72 w-72 animate-blob rounded-full bg-emerald-400/20 blur-3xl" />
-      <div className="pointer-events-none absolute -right-16 bottom-10 h-80 w-80 animate-blob rounded-full bg-teal-400/20 blur-3xl [animation-delay:5s]" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgb(255_255_255_/_0.06)_1px,transparent_0)] [background-size:28px_28px]" />
+    // Niente più sfondo dipinto a mano qui: l'aurora animata viene da
+    // body::before (globals.css) ed è la stessa su tutta l'app — solo la
+    // trama a puntini resta locale, per texture sopra l'aurora.
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden px-4">
+      <div className="bg-grid-dots pointer-events-none absolute inset-0 opacity-40" />
 
-      <div className="relative w-full max-w-sm animate-scale-in rounded-3xl border border-white/10 bg-white/95 p-8 shadow-2xl ring-1 ring-black/5 backdrop-blur-xl">
+      <div className="gradient-border relative w-full max-w-sm animate-scale-in rounded-3xl p-8 shadow-2xl backdrop-blur-xl">
         <div className="mb-6 flex flex-col items-center text-center">
           <div className="mb-3 rounded-2xl shadow-glow-lg">
             <Image
@@ -108,7 +99,7 @@ export default function LoginPage() {
           </div>
 
           {error && (
-            <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-cost">{error}</p>
+            <p className="rounded-lg border border-rose-500/20 bg-rose-500/10 px-3 py-2 text-sm text-cost">{error}</p>
           )}
 
           <button

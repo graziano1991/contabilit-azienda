@@ -16,7 +16,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "FinanzaCore",
   description: "Centro di controllo finanziario e operativo dell'azienda",
-  themeColor: "#0b1220",
+  themeColor: "#05050c",
 };
 
 export default function RootLayout({

@@ -19,6 +19,23 @@ export default async function DashboardPage() {
 
   return (
     <div>
+      {/* Banner "control center": prima impressione della dashboard, con
+          l'utile netto in evidenza a caratteri grandi e sfumatura premium
+          invece di partire subito con la griglia di numeri. */}
+      <div className="glass-panel relative mb-7 overflow-hidden rounded-3xl p-6 shadow-ambient animate-fade-in-up sm:p-8">
+        <div className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-brand-500/20 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-24 -left-16 h-56 w-56 rounded-full bg-accent-500/15 blur-3xl" />
+        <p className="relative text-xs font-semibold uppercase tracking-wide text-neutral-500">
+          {company.name}
+        </p>
+        <p className="relative mt-2 text-3xl font-semibold tracking-tight text-gradient-brand sm:text-4xl">
+          {formatCurrency(data.totalProfit)}
+        </p>
+        <p className="relative mt-1 text-sm text-neutral-500">
+          Utile complessivo su tutte le realtà e operazioni
+        </p>
+      </div>
+
       <PageHeader
         title="Panoramica aziendale"
         description={company.name}

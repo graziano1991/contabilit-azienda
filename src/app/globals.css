@@ -12,18 +12,45 @@ html {
 }
 
 body {
-  @apply bg-neutral-50 text-neutral-900 antialiased;
-  /* Profondità sottile invece del grigio piatto: tre macchie di colore
-     bassissima opacità, fisse rispetto al viewport così non si muovono
-     con lo scroll del contenuto. */
-  background-image: theme("backgroundImage.mesh-light");
+  @apply text-neutral-900 antialiased;
+  /* Base scura: l'aurora animata qui sotto (body::before) sta sopra questo
+     colore, che resta visibile ai bordi/durante il caricamento del CSS. */
+  background-color: #05050c;
   background-attachment: fixed;
+}
+
+/* Sfondo "aurora": macchie di colore molto sfumate (viola, fucsia, ciano,
+   verde smeraldo) che si muovono lentissimamente dietro a TUTTA l'app —
+   login, verifica di sicurezza e ogni pagina del gestionale, senza dover
+   ripetere questo sfondo pagina per pagina. Un pseudo-elemento fixed
+   dietro al contenuto (z-index negativo) invece di un elemento reale:
+   zero impatto sul layout, e l'animazione anima solo transform/opacity
+   (GPU-friendly), mai proprietà che causano reflow. inset -10% + blur
+   evitano bordi netti visibili durante il movimento.
+*/
+body::before {
+  content: "";
+  position: fixed;
+  inset: -10%;
+  z-index: -1;
+  background-image: theme("backgroundImage.aurora-mesh");
+  filter: blur(50px);
+  animation: aurora-drift 24s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Sottile trama a puntini sopra l'aurora, per dare profondità "tecnologica"
+   senza distrarre — la stessa usata da login/verifica di sicurezza, ora
+   disponibile ovunque come classe di utilità. */
+.bg-grid-dots {
+  background-image: theme("backgroundImage.grid-dots");
+  background-size: 28px 28px;
 }
 
 /* Selezione testo nei colori del brand invece del blu di sistema */
 ::selection {
-  background-color: theme("colors.accent.200");
-  color: theme("colors.brand.900");
+  background-color: rgb(124 58 237 / 0.4);
+  color: #fff;
 }
 
 /* Ogni elemento interattivo reagisce subito al tocco/click: niente ritardi
@@ -49,7 +76,7 @@ a:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid theme("colors.accent.400");
+  outline: 2px solid theme("colors.accent.600");
   outline-offset: 2px;
 }
 
@@ -59,19 +86,20 @@ tbody tr {
   transition: background-color 150ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 tbody tr:hover {
-  @apply bg-accent-50/60;
+  background-color: rgb(124 58 237 / 0.08);
 }
 
-/* Scrollbar sottile nei toni del brand */
+/* Scrollbar sottile nei toni del brand, versione scura */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 ::-webkit-scrollbar-thumb {
-  @apply bg-brand-200 rounded-full;
+  background-color: rgb(124 58 237 / 0.35);
+  border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-brand-300;
+  background-color: rgb(124 58 237 / 0.55);
 }
 ::-webkit-scrollbar-track {
   background: transparent;
@@ -91,19 +119,45 @@ tbody tr:hover {
   0% { opacity: 0; transform: translateY(8px); }
   100% { opacity: 1; transform: translateY(0); }
 }
-
-/* Superficie "vetro": usata dalla topbar per restare leggibile e premium
-   anche con il contenuto che scorre sotto. */
-.glass-surface {
-  background-color: rgb(255 255 255 / 0.72);
-  backdrop-filter: blur(12px) saturate(1.4);
-  -webkit-backdrop-filter: blur(12px) saturate(1.4);
+@keyframes aurora-drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.9; }
+  50% { transform: translate3d(2%, -3%, 0) scale(1.08); opacity: 1; }
 }
 
-/* Testo con sfumatura del brand, per i titoli che devono avere più peso
-   visivo (KPI, valori in evidenza, titoli hero). */
+/* Superficie "vetro" scura: usata da topbar e da ogni pannello che deve
+   restare leggibile e premium anche con contenuto/aurora che scorre
+   sotto. bg-white a bassissima opacità invece di un colore pieno, così lo
+   sfondo animato resta visibile in trasparenza dietro ogni superficie. */
+.glass-surface {
+  background-color: rgb(10 12 23 / 0.55);
+  backdrop-filter: blur(16px) saturate(1.3);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+}
+
+/* Pannello "vetro" di base per card, tabelle, form: bordo sottile quasi
+   invisibile che si accende leggermente in hover, leggero blur, ombra
+   "glow" invece della vecchia ombra morbida da tema chiaro. */
+.glass-panel {
+  background-color: rgb(255 255 255 / 0.035);
+  border: 1px solid rgb(255 255 255 / 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Bordo con gradiente animato: usato sugli elementi che devono "wow" di
+   più (card in evidenza, pannello di login). Un doppio background invece
+   di un vero border-image, per poter arrotondare gli angoli liberamente. */
+.gradient-border {
+  position: relative;
+  background: linear-gradient(rgb(8 9 18 / 0.9), rgb(8 9 18 / 0.9)) padding-box,
+    linear-gradient(115deg, #7c3aed, #d946ef, #22d3ee) border-box;
+  border: 1px solid transparent;
+}
+
+/* Testo con sfumatura del brand (viola → fucsia → ciano), per i titoli che
+   devono avere più peso visivo (KPI, valori in evidenza, titoli hero). */
 .text-gradient-brand {
-  background-image: linear-gradient(90deg, theme("colors.brand.700"), theme("colors.accent.600"));
+  background-image: theme("backgroundImage.premium-gradient");
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -148,7 +202,7 @@ tbody tr:hover {
 /* Rispetta la preferenza di sistema "riduci animazioni": chi la attiva lo fa
    per motivi di comfort/accessibilità (vestibolari, sensibilità al
    movimento), quindi tutte le transizioni e animazioni dell'app si azzerano
-   invece di ignorare la scelta. */
+   invece di ignorare la scelta — incluso il nuovo sfondo aurora animato. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

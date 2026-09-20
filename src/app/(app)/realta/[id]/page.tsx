@@ -33,7 +33,7 @@ export default async function RealityDetailPage({
     <div className="space-y-8">
       <div>
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-600">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-500/15 text-brand-700 shadow-glow">
             <Icon className="h-5 w-5" />
           </div>
           <div>
@@ -205,7 +205,7 @@ export default async function RealityDetailPage({
         {documents.length === 0 ? (
           <p className="text-sm text-neutral-500">Nessun documento caricato.</p>
         ) : (
-          <ul className="divide-y divide-neutral-100 rounded-2xl border border-neutral-200 bg-white">
+          <ul className="glass-panel divide-y divide-white/10 rounded-2xl">
             {documents.map((d) => (
               <li key={d.id} className="flex items-center justify-between px-4 py-3 text-sm">
                 <span className="text-neutral-700">{d.name}</span>

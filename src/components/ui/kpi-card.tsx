@@ -2,10 +2,10 @@ import clsx from "clsx";
 import { TrendingUp, TrendingDown, Scale, Wallet } from "lucide-react";
 
 const BAR_CLASSES: Record<string, string> = {
-  neutral: "from-brand-300 to-brand-500",
-  revenue: "from-accent-400 to-accent-600",
-  cost: "from-red-300 to-red-500",
-  profit: "from-brand-500 to-accent-500",
+  neutral: "from-brand-500 to-accent-600",
+  revenue: "from-emerald-400 to-emerald-600",
+  cost: "from-rose-400 to-rose-600",
+  profit: "from-brand-500 via-glow-500 to-accent-500",
 };
 
 const ICON_BY_TONE = {
@@ -15,11 +15,14 @@ const ICON_BY_TONE = {
   profit: Scale,
 } as const;
 
+// Chip dell'icona: sfondo del colore a bassa opacità + glow coerente,
+// invece dei vecchi chip pastello (bg-brand-50 ecc.) che su uno sfondo
+// scuro sarebbero risultati rettangoli chiari fuori posto.
 const ICON_CLASSES: Record<string, string> = {
-  neutral: "bg-brand-50 text-brand-600",
-  revenue: "bg-accent-50 text-revenue",
-  cost: "bg-red-50 text-cost",
-  profit: "bg-gradient-to-br from-brand-50 to-accent-50 text-brand-700",
+  neutral: "bg-brand-500/15 text-brand-700 shadow-glow",
+  revenue: "bg-emerald-500/15 text-emerald-300 shadow-glow-emerald",
+  cost: "bg-rose-500/15 text-cost shadow-glow-rose",
+  profit: "bg-gradient-to-br from-brand-500/20 to-accent-500/20 text-brand-700 shadow-glow",
 };
 
 export function KpiCard({
@@ -36,7 +39,7 @@ export function KpiCard({
   const Icon = ICON_BY_TONE[tone] ?? ICON_BY_TONE.neutral;
 
   return (
-    <div className="group relative overflow-hidden rounded-2xl border border-neutral-200/80 bg-white p-4 shadow-ambient transition-all duration-200 ease-snappy animate-fade-in-up hover:-translate-y-1 hover:shadow-card-hover">
+    <div className="glass-panel group relative overflow-hidden rounded-2xl p-4 shadow-ambient transition-all duration-300 ease-snappy animate-fade-in-up hover:-translate-y-1 hover:border-white/20 hover:shadow-card-hover">
       <span
         className={clsx(
           "absolute inset-x-0 top-0 h-1 bg-gradient-to-r opacity-80 transition-opacity duration-200 group-hover:opacity-100",
@@ -61,7 +64,7 @@ export function KpiCard({
           "mt-2 text-2xl font-semibold tracking-tight tabular-nums",
           tone === "revenue" && "text-revenue",
           tone === "cost" && "text-cost",
-          tone === "profit" && "text-brand-700",
+          tone === "profit" && "text-gradient-brand",
           tone === "neutral" && "text-neutral-900"
         )}
       >

@@ -31,9 +31,9 @@ export default function NuovaRealtaPage() {
             <Link
               key={opt.type}
               href={opt.href}
-              className="group flex flex-col items-start rounded-2xl border border-neutral-200/80 bg-white p-5 shadow-ambient transition-all duration-200 ease-snappy hover:-translate-y-1 hover:border-accent-200 hover:shadow-card-hover active:scale-[0.98]"
+              className="glass-panel group flex flex-col items-start rounded-2xl p-5 shadow-ambient transition-all duration-300 ease-snappy hover:-translate-y-1 hover:border-white/20 hover:shadow-card-hover active:scale-[0.98]"
             >
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-600 transition-transform duration-200 group-hover:scale-110">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-500/15 text-brand-700 shadow-glow transition-transform duration-200 group-hover:scale-110">
                 <Icon className="h-5 w-5" />
               </div>
               <p className="mt-3 text-sm font-semibold text-neutral-900">

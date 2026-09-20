@@ -39,7 +39,11 @@ export function AppShell({
   }, [mobileOpen]);
 
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-gradient-to-br from-neutral-50 via-white to-accent-50/40">
+    // Sfondo trasparente qui apposta: l'aurora animata definita in
+    // globals.css vive su <body> (fixed, dietro a tutto), quindi il guscio
+    // dell'app non ha più bisogno di un proprio gradiente — lascia
+    // semplicemente vedere in trasparenza lo sfondo dinamico globale.
+    <div className="relative flex h-screen w-full overflow-hidden">
       <Sidebar
         companyName={companyName}
         mobileOpen={mobileOpen}

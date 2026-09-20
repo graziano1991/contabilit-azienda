@@ -20,8 +20,8 @@ export default function AppError({
   }, [error]);
 
   return (
-    <div className="flex min-h-[60vh] flex-col items-center justify-center rounded-2xl border border-dashed border-neutral-300 bg-white px-6 py-14 text-center">
-      <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-full bg-red-50 text-cost">
+    <div className="flex min-h-[60vh] flex-col items-center justify-center rounded-2xl border border-dashed border-white/15 bg-white/[0.02] px-6 py-14 text-center backdrop-blur-sm">
+      <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-full bg-rose-500/15 text-cost shadow-glow-rose">
         <AlertTriangle className="h-5 w-5" />
       </div>
       <p className="text-sm font-medium text-neutral-700">
