@@ -27,6 +27,8 @@ import {
   Building,
   UserCog,
   X,
+  PanelLeftClose,
+  PanelLeftOpen,
 } from "lucide-react";
 import clsx from "clsx";
 
@@ -99,10 +101,14 @@ export function Sidebar({
   companyName,
   mobileOpen = false,
   onClose,
+  collapsed = false,
+  onToggleCollapsed,
 }: {
   companyName: string;
   mobileOpen?: boolean;
   onClose?: () => void;
+  collapsed?: boolean;
+  onToggleCollapsed?: () => void;
 }) {
   const pathname = usePathname();
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() => {
@@ -114,6 +120,24 @@ export function Sidebar({
     }
     return initial;
   });
+
+  // Le etichette testuali spariscono solo quando il rail è "a icone" su
+  // desktop (collapsed && md+): su mobile il cassetto resta sempre disteso,
+  // indipendentemente dallo stato salvato, perché lì lo spazio non manca e
+  // le etichette servono sempre.
+  const labelHidden = collapsed ? "md:hidden" : "";
+
+  function handleGroupClick(entry: NavGroup, isOpen: boolean) {
+    if (collapsed) {
+      // Un rail a icone non ha spazio per un accordion: il primo click su
+      // un gruppo riapre il rail intero e apre subito quel gruppo, invece
+      // di costruire un secondo meccanismo (flyout) da mantenere allineato.
+      onToggleCollapsed?.();
+      setOpenGroups((prev) => ({ ...prev, [entry.label]: true }));
+      return;
+    }
+    setOpenGroups((prev) => ({ ...prev, [entry.label]: !isOpen }));
+  }
 
   return (
     <>
@@ -133,8 +157,9 @@ export function Sidebar({
 
       <aside
         className={clsx(
-          "fixed inset-y-0 left-0 z-50 flex h-full w-72 max-w-[85vw] shrink-0 flex-col overflow-hidden bg-[#07050f] transition-transform duration-300 ease-snappy",
-          "md:static md:z-auto md:w-64 md:max-w-none md:translate-x-0",
+          "fixed inset-y-0 left-0 z-50 flex h-full w-72 max-w-[85vw] shrink-0 flex-col overflow-hidden bg-[#07050f] transition-[width,transform] duration-300 ease-snappy",
+          "md:static md:z-auto md:max-w-none md:translate-x-0",
+          collapsed ? "md:w-20" : "md:w-64",
           mobileOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full"
         )}
       >
@@ -146,7 +171,12 @@ export function Sidebar({
         <div className="pointer-events-none absolute -right-20 bottom-24 h-64 w-64 animate-blob rounded-full bg-accent-500/15 blur-3xl [animation-delay:4s]" />
         <div className="pointer-events-none absolute inset-y-0 right-0 w-px bg-gradient-to-b from-transparent via-white/10 to-transparent" />
 
-        <div className="relative flex items-center gap-2.5 border-b border-white/10 px-5 py-5">
+        <div
+          className={clsx(
+            "relative flex items-center gap-2.5 border-b border-white/10 px-5 py-5",
+            collapsed && "md:justify-center md:px-0"
+          )}
+        >
           <div className="rounded-lg shadow-glow">
             <Image
               src="/logo.png"
@@ -157,7 +187,7 @@ export function Sidebar({
               priority
             />
           </div>
-          <div className="min-w-0 flex-1">
+          <div className={clsx("min-w-0 flex-1", labelHidden)}>
             <p className="text-sm font-semibold leading-tight text-white">
               FinanzaCore
             </p>
@@ -186,15 +216,23 @@ export function Sidebar({
                     <Link
                       href={entry.href}
                       onClick={onClose}
+                      title={entry.label}
                       className={clsx(
                         "relative flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-150",
+                        collapsed && "md:justify-center md:px-0",
                         active
                           ? "bg-premium-gradient-soft text-white shadow-inner-glow ring-1 ring-inset ring-white/10"
-                          : "text-white/60 hover:translate-x-0.5 hover:bg-white/5 hover:text-white"
+                          : "text-white/60 hover:translate-x-0.5 hover:bg-white/5 hover:text-white",
+                        collapsed && "md:hover:translate-x-0"
                       )}
                     >
                       {active && (
-                        <span className="absolute inset-y-1 left-0 w-0.5 rounded-full bg-premium-gradient shadow-glow" />
+                        <span
+                          className={clsx(
+                            "absolute inset-y-1 left-0 w-0.5 rounded-full bg-premium-gradient shadow-glow",
+                            collapsed && "md:hidden"
+                          )}
+                        />
                       )}
                       <Icon
                         className={clsx(
@@ -202,7 +240,7 @@ export function Sidebar({
                           active && "text-accent-600"
                         )}
                       />
-                      {entry.label}
+                      <span className={labelHidden}>{entry.label}</span>
                     </Link>
                   </li>
                 );
@@ -216,14 +254,11 @@ export function Sidebar({
                 <li key={entry.label}>
                   <button
                     type="button"
-                    onClick={() =>
-                      setOpenGroups((prev) => ({
-                        ...prev,
-                        [entry.label]: !isOpen,
-                      }))
-                    }
+                    title={entry.label}
+                    onClick={() => handleGroupClick(entry, isOpen)}
                     className={clsx(
                       "flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-150",
+                      collapsed && "md:justify-center md:px-0",
                       groupActive
                         ? "bg-white/5 text-white"
                         : "text-white/60 hover:bg-white/5 hover:text-white"
@@ -235,16 +270,24 @@ export function Sidebar({
                         groupActive && "text-accent-600"
                       )}
                     />
-                    <span className="flex-1 text-left">{entry.label}</span>
+                    <span className={clsx("flex-1 text-left", labelHidden)}>
+                      {entry.label}
+                    </span>
                     <ChevronDown
                       className={clsx(
                         "h-3.5 w-3.5 shrink-0 text-white/40 transition-transform duration-200",
-                        isOpen && "rotate-180"
+                        isOpen && "rotate-180",
+                        labelHidden
                       )}
                     />
                   </button>
                   {isOpen && (
-                    <ul className="mt-1 space-y-0.5 border-l-2 border-white/10 pl-4">
+                    <ul
+                      className={clsx(
+                        "mt-1 space-y-0.5 border-l-2 border-white/10 pl-4",
+                        labelHidden
+                      )}
+                    >
                       {entry.items.map((item) => {
                         const ItemIcon = item.icon;
                         const active = pathname === item.href;
@@ -273,6 +316,29 @@ export function Sidebar({
             })}
           </ul>
         </nav>
+
+        {/* Interruttore rail espanso/a icone: solo desktop, il cassetto
+            mobile non ne ha bisogno (si apre/chiude già col bottone hamburger
+            e lo scrim). Stato persistito da AppShell in localStorage. */}
+        <div className="relative hidden shrink-0 border-t border-white/10 p-3 md:block">
+          <button
+            type="button"
+            onClick={onToggleCollapsed}
+            aria-label={collapsed ? "Espandi menu" : "Riduci menu a icone"}
+            title={collapsed ? "Espandi menu" : "Riduci menu a icone"}
+            className={clsx(
+              "flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-white/50 transition-all duration-150 hover:bg-white/5 hover:text-white",
+              collapsed && "justify-center px-0"
+            )}
+          >
+            {collapsed ? (
+              <PanelLeftOpen className="h-4 w-4 shrink-0" />
+            ) : (
+              <PanelLeftClose className="h-4 w-4 shrink-0" />
+            )}
+            <span className={labelHidden}>Riduci menu</span>
+          </button>
+        </div>
       </aside>
     </>
   );

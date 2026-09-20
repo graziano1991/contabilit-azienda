@@ -1,6 +1,6 @@
 import { cache } from "react";
 import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 
 /**
  * Client Supabase da usare nei Server Component / route handler.
@@ -49,6 +49,24 @@ export const createClient = cache(async () => {
  * risultato già pronto, a costo zero.
  */
 export const getAuthUser = cache(async () => {
+  // Il middleware ha già verificato l'utente con un giro di rete a Supabase
+  // e ci passa il risultato tramite header interni: se sono presenti, li
+  // usiamo direttamente invece di rifare la stessa identica verifica qui
+  // (che sarebbe un secondo giro di rete per la stessa identica richiesta).
+  const headerList = await headers();
+  const headerUserId = headerList.get("x-user-id");
+  const headerUserEmail = headerList.get("x-user-email");
+
+  if (headerUserId) {
+    return { id: headerUserId, email: headerUserEmail || null } as {
+      id: string;
+      email: string | null;
+    };
+  }
+
+  // Fallback: nessun header (es. route non coperta dal matcher del
+  // middleware, oppure chiamata da un contesto senza middleware davanti).
+  // Rifacciamo la verifica reale, come prima di questa ottimizzazione.
   const supabase = await createClient();
   const {
     data: { user },

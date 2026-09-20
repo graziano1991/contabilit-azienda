@@ -1,3 +1,4 @@
+import { LayoutDashboard } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentCompany } from "@/lib/data/company";
 import { getDashboardData } from "@/lib/data/dashboard";
@@ -39,12 +40,24 @@ export default async function DashboardPage() {
       <PageHeader
         title="Panoramica aziendale"
         description={company.name}
+        icon={LayoutDashboard}
       />
 
-      <div className="stagger-children grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+      {/* Griglia "bento": l'Utile occupa due colonne su desktop/tablet per
+          restare la cifra più in vista dopo il banner, le altre metriche
+          scorrono intorno invece di allinearsi tutte alla stessa larghezza
+          come nella vecchia griglia a 6 colonne uguali. */}
+      <div className="stagger-children grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        <div className="col-span-2">
+          <KpiCard
+            label="Utile"
+            value={formatCurrency(data.totalProfit)}
+            tone="profit"
+            hint="Utile netto su tutte le realtà e operazioni"
+          />
+        </div>
         <KpiCard label="Ricavi totali" value={formatCurrency(data.totalRevenue)} tone="revenue" />
         <KpiCard label="Costi totali" value={formatCurrency(data.totalCost)} tone="cost" />
-        <KpiCard label="Utile" value={formatCurrency(data.totalProfit)} tone="profit" />
         <KpiCard label="Cash" value={formatCurrency(data.cash)} />
         <KpiCard label="Crediti" value={formatCurrency(data.receivables)} tone="revenue" />
         <KpiCard label="Debiti" value={formatCurrency(data.payables)} tone="cost" />
